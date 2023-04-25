@@ -4,6 +4,8 @@ Memory Match Game, also known as  _"Concentration"_, _"Match Match"_, _"Match Up
 
 This project is a web-based version of [_Memory Match_](https://en.wikipedia.org/wiki/Concentration_(card_game)), created using HTML, CSS, and JavaScript with the Vue.js framework. It has been developed as part of a coding bootcamp project, and is intended to showcase the developer's skills in front-end web development.
 
+[![Watch the video](./assets-readme/screenshot-watch-the-video.png)](https://youtu.be/SWKaKSTpPSA)
+
 ## Index
 
 * [1. Game Play](#1-game-play)
@@ -47,7 +49,7 @@ python3 -m http.server
 You can also use any other HTTP server that can serve static files with the correct MIME types.
 
 ### Online
-Alternatively, you can play the game online at [GAME LINK].
+Alternatively, you can play the game online at https://memorygame.valenciaoliveros.com.
 
 ## 3. Instructions
 In this game, the player is required to flip over two cards at a time and try to match them to form pairs. The game starts by requesting the player's name, and then displaying a board with a set of cards facing down. The player must flip two cards per turn and try to find all matching pairs.
@@ -78,6 +80,9 @@ The game features three screens:
 ![Screenshot Game Board 1](./assets-readme/screenshot-game-board-1.png)
 3. The final screen is a congratulatory message that displays the user's name when they successfully match all the cards.
 ![Screenshot Congrats](./assets-readme/screenshot-congrats.png)
+
+Google Lighthouse
+![Screenshot Lighthouse](./assets-readme/screenshot-lighthouse.png)
 
 ## 6. Conclusion
 This Memory Match game project is a fun and interactive way to test your memory and concentration skills. It is an excellent example of using Vue.js to create a functional and visually appealing web-based application.
