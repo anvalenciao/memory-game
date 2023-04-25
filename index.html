@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Play and have fun with Memory Game! Exercise your memory and put your skills to the test by remembering pairs of cards. Try it now and challenge your friends!">
+
+  <title>Memory Game</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#151f38">
+  <meta name="msapplication-TileColor" content="#151f38">
+  <meta name="theme-color" content="#151f38">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap-reboot.min.css"
+    integrity="sha512-IS8Z2ZgFvTz/yLxE6H07ip/Ad+yAGswoD1VliOeC2T4WaPFNPC1TwmQ5zomGS+syaR2oO3aXJGKaHv21Dspx0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css"
+    integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/styles.min.css">
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but memory doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+  </noscript>
+
+  <div class="overlay is-active" id="loader">
+    <div class="overlay-content">
+      <img src="img/loader-grid.svg" width="50" height="50" alt="Loader Icon">
+    </div>
+  </div>
+
+  <div id="app-game" class="container">
+    <div class="overlay" id="signin">
+      <div class="overlay-content">
+        <img src="img/logo.svg" alt="Logo" width="150" height="150">
+        
+        <div class="accordion mt-4 mb-4">
+          <input class="accordion-toggle" type="checkbox" id="toggle" name="toggle">
+          <label class="accordion-label btn btn-outline-light m-2" for="toggle">How to Play</label>
+          <ul class="accordion-content">
+            <li>Remember the location of face-down cards.</li>
+            <li>Click on two cards to flip them over and reveal their images.</li>
+            <li>If the two cards have the same image, they will stay face-up, and you will have found a pair.</li>
+            <li>If the cards do not match, they will flip back over, and you will have to try again.</li>
+            <li>Use the mouse or <mark>Tab</mark> and <mark>Shift+Tab</mark> keys to navigate through the cards.</li>
+            <li>Press the Space key to flip over a card.</li>
+            <li>Keep flipping over cards and finding pairs until you've matched them all.</li>
+            <li>Have fun and exercise your memory with Memory Game!</li>
+          </ul>
+        </div>
+        
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Nickname</label>
+            <input type="text" class="form-control nickname" id="exampleInputEmail1" aria-describedby="emailHelp" name="player" v-model="player" required>
+            <div id="emailHelp" class="form-text">Please enter your nickname</div>
+          </div>
+          <button @click.prevent="start" class="btn btn-primary">Start Game!</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="overlay" id="congrats">
+      <div class="overlay-content">
+        <div class="overlay-header">
+          <h3 class="congrats-title ani-bounce">Congrats {{player}}</h3>
+        </div>
+        <div class="overlay-body mt-4 mb-4">
+          <div class="vertically-align">
+            <img class="mt-2" src="img/timer.svg" width="24" height="24" alt="Timer Icon">
+            <span class="congrats-text">{{min}} : {{sec}}</span>
+          </div>
+          <div class="vertically-align">
+            <img class="mt-2" src="img/task_alt.svg" width="24" height="24" alt="Task Alt Icon">
+            <span class="congrats-text">{{hits}}</span>
+          </div>
+          <div class="vertically-align">
+            <img class="mt-2" src="img/error.svg" width="24" height="24" alt="Error Icon">
+            <span class="congrats-text">{{errors}}</span>
+          </div>
+        </div>
+        <div class="overlay-footer">
+          <button @click="playAgain" class="btn btn-primary m-2">Play Again!</button>
+          <button @click="newGame" class="btn btn-outline-light m-2">New Game</button>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <header>
+        <nav class="row">
+          <div class="col-12 col-sm-6">
+            <div class="vertically-align justify-content-start">
+              <h1>
+                <img src="img/logo.svg" alt="Logo" width="100" height="100">
+              </h1>
+              <h2>Player: {{player}}</h2>
+            </div>
+          </div>
+
+          <div class="col-4 col-sm-2 nav-item">
+            <img class="d-block" src="img/timer.svg" width="48" height="48" alt="Timer Icon">
+            {{min}} : {{sec}}
+          </div>
+          <div class="col-4 col-sm-2 nav-item">
+            <img class="d-block" src="img/task_alt.svg" width="48" height="48" alt="Task Alt Icon">
+            {{hits}}
+          </div>
+          <div class="col-4 col-sm-2 nav-item">
+            <img class="d-block" src="img/error.svg" width="48" height="48" alt="Error Icon">
+            {{errors}}
+          </div>
+          
+        </nav>
+      </header>
+
+      <section class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6">
+        <article v-for="(card, index) in cards" :key="`${componentRefresh}-${index}`" class="col flip-card">
+          <input class="flip-card-trigger" :id="`flip-card-trigger-${index}`" type="checkbox" :value="`${card.uuid}`" v-model="card.checked" @click="checkCards" :disabled="card.disabled" :autofocus="index==0?true:false">
+          <label class="flip-card-inner border-radius" :for="`flip-card-trigger-${index}`">
+            <div class="flip-card-front border-radius">
+              ?
+            </div>
+            <div class="flip-card-back">
+              <img class="flip-card-img border-radius" :src="`${card.url}`" :alt="`${card.title} Card`">
+            </div>
+          </label>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.prod.min.js" integrity="sha512-Wn/yBJ4RQtrSFtq1z61/DM40a7VGN8wnyg8oVhWSZAZchTO9zS/l8Kw6bk32CYjS5VgProK4ujLRMqxEE/bUPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="module">
+    const { createApp } = Vue;
+    import Game from './js/game.min.js';
+    createApp(Game).mount('#app-game');
+  </script>
+
+</body>
+</html>
